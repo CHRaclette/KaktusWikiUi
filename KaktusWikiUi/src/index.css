@@ -1,0 +1,481 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ── Minecraft Dark Theme ───────────────────── */
+    --background:       220 22% 7%;     /* #0e1117 – night sky */
+    --foreground:       210 18% 88%;    /* #dde3eb – near white */
+    --card:             220 20% 10%;    /* #151921 – stone dark */
+    --card-foreground:  210 18% 88%;
+    --popover:          220 20% 10%;
+    --popover-foreground: 210 18% 88%;
+    --primary:          111 58% 38%;    /* #3f9a27 – grass green */
+    --primary-foreground: 0 0% 100%;
+    --secondary:        220 16% 16%;    /* #222a35 – cobblestone */
+    --secondary-foreground: 210 15% 75%;
+    --muted:            220 16% 14%;
+    --muted-foreground: 215 12% 52%;    /* #7a8596 – stone grey */
+    --accent:           220 16% 16%;
+    --accent-foreground: 210 15% 80%;
+    --destructive:      0 70% 42%;
+    --destructive-foreground: 0 0% 100%;
+    --border:           220 16% 18%;    /* #252e3c */
+    --input:            220 16% 18%;
+    --ring:             111 58% 38%;
+    --radius:           0.25rem;        /* blocky – minimal rounding */
+
+    /* Minecraft extra tokens */
+    --mc-grass:    #4c9a2a;
+    --mc-grass-light: #6cc444;
+    --mc-dirt:     #8b5e3c;
+    --mc-stone:    #555f6e;
+    --mc-gold:     #f0a500;
+    --mc-diamond:  #23d9d9;
+    --mc-slot-bg:  #1c2130;
+    --mc-slot-hi:  rgba(255,255,255,0.07);
+    --mc-slot-sh:  rgba(0,0,0,0.5);
+  }
+
+  /* Light mode keeps the same dark Minecraft theme */
+  .dark { }
+
+  * { @apply border-border; }
+
+  html { color-scheme: dark; scroll-behavior: smooth; font-size: 18px; height: 100vh; overflow: hidden; }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.75;
+    background-image:
+      radial-gradient(circle at 25% 0%, rgba(76,154,42,0.04) 0%, transparent 50%),
+      radial-gradient(circle at 75% 100%, rgba(76,154,42,0.04) 0%, transparent 50%);
+  }
+
+  /* Prevent document scrolling; use internal scroll regions instead */
+  body, #root {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+/* Sidebar-specific link sizing for improved readability */
+.sidebar-nav a {
+  font-size: 0.98rem; /* slightly larger than default */
+}
+.sidebar-nav .leading-snug { line-height: 1.35; }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'VT323', monospace;
+    letter-spacing: 0.03em;
+  }
+}
+
+/* ─────────────────────────────────────────────────────── */
+/* SCROLLBAR                                               */
+/* ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: hsl(var(--muted)); }
+::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--mc-stone); }
+
+/* ─────────────────────────────────────────────────────── */
+/* MINECRAFT UI PRIMITIVES                                 */
+/* ─────────────────────────────────────────────────────── */
+
+/* Inventory slot look */
+.mc-slot {
+  background: var(--mc-slot-bg);
+  border: 2px solid #000;
+  box-shadow:
+    inset 1px 1px 0 var(--mc-slot-hi),
+    inset -1px -1px 0 var(--mc-slot-sh);
+}
+
+/* Minecraft-style panel (like chest/inventory header) */
+.mc-panel {
+  background: linear-gradient(180deg, hsl(220 20% 13%), hsl(220 20% 9%));
+  border: 2px solid hsl(220 16% 22%);
+  border-bottom-color: hsl(220 16% 12%);
+  border-right-color:  hsl(220 16% 12%);
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.05);
+}
+
+/* Grass-green section divider */
+.mc-grass-bar {
+  height: 4px;
+  background: linear-gradient(90deg, var(--mc-grass), var(--mc-grass-light), var(--mc-grass));
+}
+
+/* Dirt bar below grass */
+.mc-dirt-bar {
+  height: 3px;
+  background: var(--mc-dirt);
+  opacity: 0.6;
+}
+
+/* Glowing green text (like Minecraft enchanted items) */
+.mc-glow {
+  color: var(--mc-grass-light);
+  text-shadow: 0 0 8px rgba(108, 196, 68, 0.5);
+}
+
+/* Gold-colored text */
+.mc-gold { color: var(--mc-gold); }
+
+/* ─────────────────────────────────────────────────────── */
+/* PROGRESS BAR                                            */
+/* ─────────────────────────────────────────────────────── */
+.progress-bar { width: var(--bar-width, 0%); }
+
+/* Minecraft HP-bar style */
+.mc-progress-track {
+  height: 8px;
+  background: #0a0a0a;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.04);
+}
+.mc-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3a9a20, #5cc43a);
+  box-shadow: 0 0 6px rgba(80,200,50,0.3);
+}
+
+/* ─────────────────────────────────────────────────────── */
+/* NAVIGATION ACTIVE STATE                                 */
+/* ─────────────────────────────────────────────────────── */
+.nav-active {
+  background: rgba(76,154,42,0.15);
+  color: var(--mc-grass-light);
+  border-left: 3px solid var(--mc-grass);
+  padding-left: calc(0.5rem - 1px);
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────────────────── */
+/* CATEGORY HERO DOTS                                      */
+/* ─────────────────────────────────────────────────────── */
+.cat-hero-dots {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, white 1px, transparent 1px),
+    radial-gradient(circle, white 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: 0 0, 14px 14px;
+}
+
+/* ─────────────────────────────────────────────────────── */
+/* WIKI ARTICLE TYPOGRAPHY                                 */
+/* ─────────────────────────────────────────────────────── */
+.wiki-prose-h2 {
+  font-family: 'VT323', monospace;
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-top: 2.4rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--mc-grass);
+  color: hsl(var(--foreground));
+  scroll-margin-top: 80px;
+}
+.wiki-prose-h3 {
+  font-family: 'VT323', monospace;
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  margin-top: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: var(--mc-grass-light);
+  scroll-margin-top: 80px;
+}
+.wiki-prose-h4 {
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  margin-top: 1.3rem;
+  margin-bottom: 0.4rem;
+  color: hsl(var(--muted-foreground));
+  scroll-margin-top: 80px;
+}
+
+/* ─────────────────────────────────────────────────────── */
+/* TABLES                                                  */
+/* ─────────────────────────────────────────────────────── */
+.wiki-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  border: 2px solid hsl(var(--border));
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.03);
+}
+.wiki-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  min-width: 360px;
+}
+.wiki-table thead tr {
+  background: linear-gradient(180deg, rgba(76,154,42,0.2), rgba(76,154,42,0.08));
+  border-bottom: 2px solid rgba(76,154,42,0.4);
+}
+.wiki-table thead th {
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--mc-grass-light);
+  white-space: nowrap;
+}
+.wiki-table tbody tr {
+  border-bottom: 1px solid hsl(var(--border));
+  transition: background 0.1s;
+}
+.wiki-table tbody tr:last-child { border-bottom: none; }
+.wiki-table tbody tr:hover { background: rgba(76,154,42,0.06); }
+.wiki-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+.wiki-table tbody td {
+  padding: 0.5rem 0.9rem;
+  color: hsl(var(--foreground) / 0.85);
+  vertical-align: top;
+}
+.wiki-table tbody td:first-child {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.8rem;
+}
+
+/* ─────────────────────────────────────────────────────── */
+/* CALLOUT BOXES (Minecraft sign/book style)               */
+/* ─────────────────────────────────────────────────────── */
+.callout-warning {
+  background: rgba(240,165,0,0.08);
+  border-left: 3px solid var(--mc-gold);
+  border: 1px solid rgba(240,165,0,0.25);
+  border-left-width: 3px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 2px;
+}
+.callout-info {
+  background: rgba(35,217,217,0.06);
+  border-left: 3px solid var(--mc-diamond);
+  border: 1px solid rgba(35,217,217,0.2);
+  border-left-width: 3px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 2px;
+}
+.callout-tip {
+  background: rgba(76,154,42,0.08);
+  border-left: 3px solid var(--mc-grass);
+  border: 1px solid rgba(76,154,42,0.25);
+  border-left-width: 3px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 2px;
+}
+
+/* ─────────────────────────────────────────────────────── */
+/* ANIMATIONS                                              */
+/* ─────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  animation: fadeIn 0.25s ease forwards;
+  will-change: opacity, transform;
+}
+
+/* ─────────────────────────────────────────────────────── */
+/* MINECRAFT BUTTON                                        */
+/* ─────────────────────────────────────────────────────── */
+.mc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(180deg, #4a7a30 0%, #2d5118 100%);
+  border: 2px solid #000;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.15),
+    inset -1px -1px 0 rgba(0,0,0,0.5),
+    0 2px 0 #1a3009;
+  color: #fff;
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  padding: 0.4rem 1.2rem;
+  cursor: pointer;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.8);
+  transition: filter 0.1s, transform 0.1s;
+  border-radius: 2px;
+  text-decoration: none;
+}
+.mc-btn:hover  { filter: brightness(1.15); }
+.mc-btn:active { transform: translateY(1px); box-shadow: inset 1px 1px 0 rgba(255,255,255,0.1), inset -1px -1px 0 rgba(0,0,0,0.5); }
+
+/* Secondary (stone) button */
+.mc-btn-stone {
+  background: linear-gradient(180deg, #4a5260 0%, #333b48 100%);
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.1), inset -1px -1px 0 rgba(0,0,0,0.5), 0 2px 0 #1e2430;
+}
+
+/* Pixelated rendering for Minecraft-style sprite images in tables */
+.img-pixel { image-rendering: pixelated; }
+
+/* ─────────────────────────────────────────────────────── */
+/* SCROLL REVEAL — fade+rise elements into view            */
+/* ─────────────────────────────────────────────────────── */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  will-change: opacity, transform;
+}
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Masonry (Pinterest-style) layout for grid cards */
+.masonry {
+  column-gap: 1rem;
+  /* start with single column by default for mobile */
+  column-count: 1;
+}
+.masonry-item {
+  display: inline-block; /* allow column flow */
+  width: 100%;
+  margin: 0 0 1rem;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+}
+.masonry-item .masonry-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+.masonry-item .masonry-title {
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  color: hsl(var(--foreground));
+}
+
+@media (min-width: 640px) {
+  .masonry { column-count: 2; }
+}
+@media (min-width: 1024px) {
+  .masonry { column-count: 3; }
+}
+
+
+/* Typography improvements for readability */
+/* Increase paragraph and list text, improve line-height and contrast */
+.wiki-prose p,
+.wiki-prose li,
+.wiki-prose ol,
+.wiki-prose ul {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: hsl(var(--foreground));
+}
+
+.wiki-prose-h2 { font-size: 2rem; }
+.wiki-prose-h3 { font-size: 1.45rem; }
+.wiki-prose-h4 { font-size: 1.2rem; }
+
+/* Tables */
+.wiki-table tbody td,
+.wiki-table thead th {
+  font-size: 0.98rem;
+  color: hsl(var(--foreground));
+}
+
+/* Masonry titles and excerpts */
+.masonry-title { font-size: 1rem; font-weight: 600; color: hsl(var(--foreground)); }
+.masonry-item .text-xs { font-size: 0.85rem; }
+
+/* Inputs and small UI text */
+input, textarea, .mc-slot input {
+  font-size: 0.98rem;
+}
+
+/* Ensure high contrast for important labels */
+.mc-slot, .mc-panel, .nav-active, .mc-btn { color: hsl(var(--card-foreground)); }
+
+
+/* Cactus glow used on the loading screen */
+.mc-cactus-glow {
+  filter: drop-shadow(0 0 24px rgba(76,154,42,0.6));
+}
+
+/* Hero title text-shadow */
+.hero-title {
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.8), 0 0 20px rgba(76,154,42,0.3);
+}
+
+/* Stats row indicator dot */
+.mc-stat-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  background: var(--mc-grass);
+}
+.mc-stat-dot-hi { background: var(--mc-grass-light); }
+
+/* ── Per-category accent bars ─────────────────────────────────── */
+.cat-bar                { height: 4px; width: 100%; flex-shrink: 0; }
+.cat-bar-allgemeines    { background: #3b82f6; }
+.cat-bar-fabrik         { background: #eab308; }
+.cat-bar-tower-defense  { background: #ef4444; }
+.cat-bar-runen          { background: #a855f7; }
+.cat-bar-stadt          { background: #f97316; }
+.cat-bar-aincraft       { background: #06b6d4; }
+.cat-bar-farmzone       { background: #22c55e; }
+.cat-bar-bauplaene      { background: #f59e0b; }
+.cat-bar-klassensystem  { background: #f43f5e; }
+.cat-bar-tutorials      { background: #14b8a6; }
+
+/* ── Per-category progress fills (combine with .progress-bar) ─── */
+.cat-fill-allgemeines   { height:100%; background:linear-gradient(90deg,#3b82f688,#3b82f6); box-shadow:0 0 5px #3b82f633; }
+.cat-fill-fabrik        { height:100%; background:linear-gradient(90deg,#eab30888,#eab308); box-shadow:0 0 5px #eab30833; }
+.cat-fill-tower-defense { height:100%; background:linear-gradient(90deg,#ef444488,#ef4444); box-shadow:0 0 5px #ef444433; }
+.cat-fill-runen         { height:100%; background:linear-gradient(90deg,#a855f788,#a855f7); box-shadow:0 0 5px #a855f733; }
+.cat-fill-stadt         { height:100%; background:linear-gradient(90deg,#f9731688,#f97316); box-shadow:0 0 5px #f9731633; }
+.cat-fill-aincraft      { height:100%; background:linear-gradient(90deg,#06b6d488,#06b6d4); box-shadow:0 0 5px #06b6d433; }
+.cat-fill-farmzone      { height:100%; background:linear-gradient(90deg,#22c55e88,#22c55e); box-shadow:0 0 5px #22c55e33; }
+.cat-fill-bauplaene     { height:100%; background:linear-gradient(90deg,#f59e0b88,#f59e0b); box-shadow:0 0 5px #f59e0b33; }
+.cat-fill-klassensystem { height:100%; background:linear-gradient(90deg,#f43f5e88,#f43f5e); box-shadow:0 0 5px #f43f5e33; }
+.cat-fill-tutorials     { height:100%; background:linear-gradient(90deg,#14b8a688,#14b8a6); box-shadow:0 0 5px #14b8a633; }
+
+/* Square icon-only button (hamburger, etc.) */
+.mc-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.4rem;
+  background: linear-gradient(180deg, #4a5260 0%, #333b48 100%);
+  border: 2px solid #000;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.1),
+    inset -1px -1px 0 rgba(0,0,0,0.5),
+    0 2px 0 #1e2430;
+  color: #fff;
+  cursor: pointer;
+  transition: filter 0.1s, transform 0.1s;
+  border-radius: 2px;
+}
+.mc-icon-btn:hover  { filter: brightness(1.15); }
+.mc-icon-btn:active { transform: translateY(1px); box-shadow: inset 1px 1px 0 rgba(255,255,255,0.1), inset -1px -1px 0 rgba(0,0,0,0.5); }
