@@ -24,7 +24,8 @@ export default function App() {
   }, [darkMode])
 
   useEffect(() => {
-    fetch('/wiki-data.json')
+    // @ts-ignore
+    fetch(import.meta.env.BASE_URL + 'wiki-data.json')
       .then(r => { if (!r.ok) throw new Error('not found'); return r.json() })
       .then((d: WikiData) => setWikiData(d))
       .catch(() => setWikiData(null))
